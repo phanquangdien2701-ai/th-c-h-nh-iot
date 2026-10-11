@@ -1,0 +1,40 @@
+# ============================================================================
+#  Config dành cho pipeline khi dùng Wokwi (ESP32 giả lập trên cloud).
+#  Collector local sẽ subscribe cùng broker PUBLIC để nhận dữ liệu từ Wokwi,
+#  rồi vẫn ghi vào InfluxDB chạy local.
+#
+#  Chạy:
+#     python collector/mqtt_to_influx.py                   # dùng config.yaml
+#     CONFIG_PATH=config/config.wokwi.yaml \
+#         python collector/mqtt_to_influx.py              # dùng cho Wokwi
+# ============================================================================
+
+mqtt:
+  host: "broker.hivemq.com"      # Phải trùng với MQTT_HOST trong sketch Wokwi
+  port: 1883
+  username: ""
+  password: ""
+  # QUAN TRỌNG: khớp đúng TOPIC_PREFIX trong sketch.ino, giữ wildcard '+'
+  topic: "anhanh/ptit/iot/+/telemetry"
+
+influx:
+  url: "https://us-east-1-1.aws.cloud2.influxdata.com"
+  org: "067e14c4612da0fa"
+  token: "XP4-NLBvJSIMVobQkUBhsZOM7UL8CXIsqcz8K4iy7rPvlzUcME9U-YQcgizdZCY5f-48JfBoVk-RyWJbROME9Q=="   # tạo token sau khi khởi tạo InfluxDB
+  bucket_raw: "iot_raw"
+  bucket_processed: "iot_processed"
+
+collector:
+  dedup_cache: 10000
+  log_level: "INFO"
+
+preprocessing:
+  window: "1min"
+  rolling: 5
+  outlier:
+    iqr_k: 1.5
+    zscore_thr: 3.0
+
+dashboard:
+  refresh_seconds: 10
+  default_minutes: 15

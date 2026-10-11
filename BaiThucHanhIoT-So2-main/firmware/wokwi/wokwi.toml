@@ -1,0 +1,14 @@
+# Wokwi project cho ESP32 (BTH2)
+# Nếu build bằng PlatformIO ở local rồi upload firmware.bin / elf lên Wokwi:
+#   [wokwi]
+#   version = 1
+#   firmware = ".pio/build/esp32dev/firmware.bin"
+#   elf      = ".pio/build/esp32dev/firmware.elf"
+#
+# Khi dùng trực tiếp wokwi.com (chọn "ESP32" + ngôn ngữ Arduino),
+# không cần file này — chỉ cần sketch.ino + diagram.json + libraries.txt.
+
+[wokwi]
+version = 1
+firmware = "firmware.bin"
+elf      = "firmware.elf"

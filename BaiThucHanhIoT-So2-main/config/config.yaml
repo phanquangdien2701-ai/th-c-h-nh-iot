@@ -1,0 +1,33 @@
+# ============================================================================
+#  Cấu hình chung cho collector, preprocessing và dashboard
+#  Mọi khóa đều có thể override bằng biến môi trường (xem collector/mqtt_to_influx.py)
+# ============================================================================
+
+mqtt:
+  host: "localhost"            # đổi thành IP máy chạy Mosquitto nếu khác
+  port: 1883
+  username: ""                 # để trống nếu không bật auth
+  password: ""
+  topic: "iot/+/telemetry"     # wildcard: thu từ mọi thiết bị
+
+influx:
+  url: "https://us-east-1-1.aws.cloud2.influxdata.com"
+  org: "067e14c4612da0fa"
+  token: "XP4-NLBvJSIMVobQkUBhsZOM7UL8CXIsqcz8K4iy7rPvlzUcME9U-YQcgizdZCY5f-48JfBoVk-RyWJbROME9Q=="   # tạo token sau khi khởi tạo InfluxDB
+  bucket_raw: "iot_raw"
+  bucket_processed: "iot_processed"
+
+collector:
+  dedup_cache: 10000           # kích thước LRU chống trùng theo (device_id, seq)
+  log_level: "INFO"
+
+preprocessing:
+  window: "1min"               # cửa sổ resample
+  rolling: 5                   # số cửa sổ cho rolling mean/std
+  outlier:
+    iqr_k: 1.5
+    zscore_thr: 3.0
+
+dashboard:
+  refresh_seconds: 10
+  default_minutes: 15
